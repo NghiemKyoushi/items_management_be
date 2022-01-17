@@ -2,18 +2,20 @@ const mongoose = require ('mongoose');
 const ItemsSchema = require('../models/itemsSchema');
 const  houseController = require("./houseController");
 const createItem = async (req, res) => {
-    const {userID, name, shortName, product_code, position, expired_date, category,create_at, picture_url} = req.body;
+    const {userID, name,description,price, shortName, product_code, position, expired_date, category, picture_url} = req.body;
 
     try{
         const newItem = await ItemsSchema({
             name: name,
             shortName: shortName,
-            product_code: product_code,
+            // product_code: product_code,
             position: position,
-            expired_date: new Date(),
+            expired_date: new Date(expired_date),
             category: category,
             create_at: new Date(),
-            picture_url: picture_url
+            picture_url: picture_url,
+            description: description,
+            price: price
         })
         let saveItem = await newItem.save();
         if(saveItem){

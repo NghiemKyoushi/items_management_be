@@ -23,6 +23,7 @@ app.listen(3030, () => console.log("Server Started"));
 // body parser configuration
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
 // cloudinary configuration
 cloudinary.config({
@@ -30,13 +31,16 @@ cloudinary.config({
   api_key: process.env.API_KEY,
   api_secret: process.env.API_SECRET,
 });
-// image upload API
-app.post("/image-upload", (request, response) => {
+
+// let headers = new Headers();
+// // image upload API
+// headers.append('Access-Control-Allow-Origin', 'http://localhost:3000');
+// headers.append('Access-Control-Allow-Credentials', 'true');
+app.post("/image-upload",cors(), (request, response) => {
   // collected image from a user
   const data = {
     image: request.body.image,
   };
-
   // upload image here
   cloudinary.uploader
     .upload(data.image)

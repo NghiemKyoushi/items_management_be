@@ -27,13 +27,13 @@ const encodeToken = (userID, userName, auth) => {
 const signUp = async (req, res) => {
     const {username , password} = req.body;
     try{
-        const error = validationResult(req);
-        if(!error.isEmpty()){
-            return res.status(422).jsonp(error.array())
-        }
+        // const error = validationResult(req);
+        // if(!error.isEmpty()){
+        //     return res.status(422).jsonp(error.array())
+        // }
         const findUser = await User.findOne({username});
         if (findUser) {
-            return res.status(400).json({
+            return res.json({
                 success: false,
                 message: "Username has already been taken"
             })
@@ -52,7 +52,7 @@ const signUp = async (req, res) => {
             res.json({message: "register successfully"});
 
         }else{
-            res.json({err: "error"})
+            res.json({message: "register false"})
         }
         
     }catch(error) {
@@ -61,10 +61,10 @@ const signUp = async (req, res) => {
     
 }
 const login = async (req, res) => {
-    const error = validationResult(req);
-    if(!error.isEmpty()){
-        return res.status(422).jsonp(error.array())
-    }
+    // const error = validationResult(req);
+    // if(!error.isEmpty()){
+    //     return res.status(422).jsonp(error.array())
+    // }
     try{
         const userDB = await User.findOne({ username: `${req.body.username}` });
         const isSame = await bcrypt.compare(req.body.password, userDB.password);
@@ -77,9 +77,14 @@ const login = async (req, res) => {
 
                 res.cookie('login', token, { expires: new Date(Date.now() + COOKIE_LIFE_TIME) });
             res.status(201).json({
-                message:"Login successfully"
+                message:"Login successfully",
+                token: token
             })
             }
+        }else{
+            res.json({
+                message:"username or password is failed"
+            })
         }
     }catch(error){
         res.json({

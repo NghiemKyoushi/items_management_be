@@ -11,9 +11,8 @@ const ItemsSchema = new Schema({
         type: String,
         required: true
     },
-    product_code:{
+    price:{
         type:String,
-        required: true
     },
     position:{
         type: String,
@@ -32,8 +31,11 @@ const ItemsSchema = new Schema({
         type: Date,
         required: true
     },
-    picture_Url:{
+    picture_url:{
         type: String
+    },
+    description:{
+        type:String
     }
 })
 
