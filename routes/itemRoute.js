@@ -10,5 +10,9 @@ router.get('/getAllItem/:userID', houseController.getAllCart);
 
 router.post('/searchItem', houseController.getItemByKey);
 
+router.post('/deleteItem', houseController.deleteItemInCart);
+
+router.post("/editItem", houseController.editItem);
+
 module.exports = router;
 
