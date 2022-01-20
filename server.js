@@ -4,6 +4,8 @@ const app = express();
 const mongoose = require("mongoose");
 const useRouter = require("./routes/userRoute");
 const itemRouter = require("./routes/itemRoute");
+const commentRoute = require("./routes/commentRoute");
+
 var cors = require("cors");
 const cloudinary = require("cloudinary").v2;
 const bodyParser = require('body-parser');
@@ -32,10 +34,6 @@ cloudinary.config({
   api_secret: process.env.API_SECRET,
 });
 
-// let headers = new Headers();
-// // image upload API
-// headers.append('Access-Control-Allow-Origin', 'http://localhost:3000');
-// headers.append('Access-Control-Allow-Credentials', 'true');
 app.post("/image-upload",cors(), (request, response) => {
   // collected image from a user
   const data = {
@@ -60,4 +58,5 @@ app.post("/image-upload",cors(), (request, response) => {
 
 app.use(express.json());
 app.use("/users", cors(), useRouter);
-app.use('/item',cors(), itemRouter )
+app.use('/item',cors(), itemRouter );
+app.use('/comment',cors(), commentRoute);

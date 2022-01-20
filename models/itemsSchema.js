@@ -4,7 +4,6 @@ const {Schema} = mongoose;
 const ItemsSchema = new Schema({
     name: {
         type: String,
-        unique: true,
         required: true
     },
     shortName: {

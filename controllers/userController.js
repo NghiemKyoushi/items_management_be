@@ -72,7 +72,7 @@ const login = async (req, res) => {
         if(isSame){
             if(userDB.authority === "client"){
                 console.log("vao");
-                const token = encodeToken(userDB._id, userDB.userName, "client");
+                const token = encodeToken(userDB._id, userDB.username, "client");
                 console.log(token);
 
                 res.cookie('login', token, { expires: new Date(Date.now() + COOKIE_LIFE_TIME) });
@@ -92,6 +92,23 @@ const login = async (req, res) => {
         })
     }
 }
+const getAllUser = async (req, res) => {
+    try{
+        const {id} = req.params;
+        console.log(id);
+        const findAll = await User.find({});
+        // console.log(user._id.toString() !== id);
+        
+        const getAllUser = findAll.filter((user) => user._id.toString() !== id)
+        res.json({
+            user: getAllUser
+        })
+    }catch(err) {
+        res.json({err: "err"});
+        console.log(err);
+        
+    }
+}
 
 // const updateUser = async (req, res) => {
 //     try{
@@ -102,3 +119,4 @@ const login = async (req, res) => {
 // }
 exports.signUp = signUp;
 exports.login = login;
+exports.getAllUser = getAllUser;

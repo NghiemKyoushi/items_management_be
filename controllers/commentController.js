@@ -1,22 +1,46 @@
 const { json } = require("body-parser");
-const CommentSchema = require("./commentController");
-
+const CommentSchema = require("../models/commentSchema");
+const HomeSchema = require ("../models/houseSchema");
 
 const createComment = async (req, res) => {
     try{
-        const {userID, content} = req.body;
+        const {userID,body, userName,parentId } = req.body;
+        const findHome = await HomeSchema.findOne({userID: userID});
+
         const newComment = await CommentSchema({
+            homeID: findHome._id,
             userID: userID,
-            content: content,
-            like: [],
-            reply: []
+            body: body,
+            userName:userName,
+            parentId:parentId,
+            createAt: new Date()
+            
         });
         const saveComment = await newComment.save();
         if(saveComment){
             res.json({message: "save comment successfully"});
         }
     }catch(err){
-        res.json({err: "err"})
+        // res.json({err: "err"})
+        console.log(err);
+        
+    }
+}
+const getAllComment = async (req, res) => {
+    try {
+        const {id} = req.params;
+        console.log(id);
+        const findHome = await HomeSchema.findOne({userID: id});
+
+        const findAllComment = await CommentSchema.find({homeID: findHome._id});
+        res.json({
+            comment: findAllComment
+        })
+    }catch(err) {
+        res.json({
+            err: "err"
+        })
+        console.log(err);
     }
 }
 const addReply = async (res, req) => {
@@ -34,4 +58,6 @@ const updateLike = async (req, res) => {
         
     }
 }
+
 exports.createComment = createComment;
+exports.getAllComment = getAllComment;

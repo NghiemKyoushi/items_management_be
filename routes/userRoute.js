@@ -23,5 +23,7 @@ router.post("/login", [
 
 ],userController.login);
 
+router.get("/getAllUser/:id", userController.getAllUser);
+
 
 module.exports = router;

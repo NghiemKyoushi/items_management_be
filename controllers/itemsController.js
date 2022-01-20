@@ -6,16 +6,16 @@ const createItem = async (req, res) => {
     console.log("body", userID)
     try{
         const newItem = await ItemsSchema({
-            name: name,
-            shortName: shortName,
+            name: name.trim(),
+            shortName: shortName.trim(),
             // product_code: product_code,
             position: position,
             expired_date: new Date(expired_date),
-            category: category,
+            category: category.trim(),
             create_at: new Date(),
             picture_url: picture_url,
-            description: description,
-            price: price
+            description: description.trim(),
+            price: price.trim()
         })
         let saveItem = await newItem.save();
         if(saveItem){
