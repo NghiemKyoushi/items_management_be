@@ -47,6 +47,7 @@ const getAllCart = async (req, res) => {
   }
 };
 
+
 const getItemByKey = async (req, res) => {
   try {
     const { userID, keyWord } = req.body;
@@ -143,9 +144,36 @@ const editItem = async (req, res) => {
   }
 };
 
+const getItemExpiredDate = async (req, res)=> {
+  const {userID} =req.body;
+  console.log("djdjdjdjdjd", userID)
+
+  const nowDate = new Date();
+  console.log(nowDate);
+  try{
+    const findHouse = await HouseSchema.findOne({ userID: userID });
+
+    let arrContainItemExpired = [];
+  
+    const arr = findHouse.cart.map((item) => {
+      const dateItem = new Date(item.expired_date);
+      if(dateItem.getFullYear() == nowDate.getFullYear() && dateItem.getMonth() +1 == nowDate.getMonth() + 1){
+        arrContainItemExpired.push(item)
+      }
+    })
+    res.json({message: arrContainItemExpired})
+  }catch(err){
+    console.log(err);
+    res.json({err: "err"})
+  }
+}
+
+
+
 exports.createHouse = createHouse;
 exports.addItemToCart = addItemToCart;
 exports.getAllCart = getAllCart;
 exports.getItemByKey = getItemByKey;
 exports.deleteItemInCart = deleteItemInCart;
 exports.editItem = editItem;
+exports.getItemExpiredDate = getItemExpiredDate;

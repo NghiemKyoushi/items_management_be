@@ -14,5 +14,7 @@ router.post('/deleteItem', houseController.deleteItemInCart);
 
 router.post("/editItem", houseController.editItem);
 
+router.post("/getItemExpired", houseController.getItemExpiredDate)
+
 module.exports = router;
 

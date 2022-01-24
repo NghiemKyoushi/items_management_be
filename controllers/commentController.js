@@ -4,14 +4,14 @@ const HomeSchema = require ("../models/houseSchema");
 
 const createComment = async (req, res) => {
     try{
-        const {userID,body, userName,parentId } = req.body;
+        const {userID,body, username,parentId } = req.body;
         const findHome = await HomeSchema.findOne({userID: userID});
 
         const newComment = await CommentSchema({
             homeID: findHome._id,
             userID: userID,
             body: body,
-            userName:userName,
+            userName:username,
             parentId:parentId,
             createAt: new Date()
             
@@ -29,7 +29,6 @@ const createComment = async (req, res) => {
 const getAllComment = async (req, res) => {
     try {
         const {id} = req.params;
-        console.log(id);
         const findHome = await HomeSchema.findOne({userID: id});
 
         const findAllComment = await CommentSchema.find({homeID: findHome._id});
